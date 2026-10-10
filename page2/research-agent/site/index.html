@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科研成果数据治理与智能核验 Agent 项目案例：从分散网页到可信科研数据库。">
+    <title>科研成果数据治理与智能核验 Agent</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../project-back.css">
+    <script defer src="script.js"></script>
+    <script defer src="../../project-back.js"></script>
+</head>
+<body>
+    <a class="project-return-link" data-project-id="project-research-agent" href="../../../index.html#project-research-agent">← 返回项目页</a>
+    <div class="page-glow page-glow--sage" aria-hidden="true"></div>
+    <div class="page-glow page-glow--rose" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <p>WDQL · CASE STUDY</p>
+        <span>DATA  /  AGENT  /  GOVERNANCE</span>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow">TRUSTED RESEARCH DATA</p>
+                <h1 id="hero-title">从分散网页，<br>到可信科研数据库</h1>
+                <p class="hero-lead">将论文与专利的采集、清洗、作者匹配、摘要补全、证据核验和质量门禁串成一条可追溯的数据生产线。</p>
+                <p class="hero-note">确定性程序负责稳定处理，Agent 负责阅读证据，规则与人工门禁决定数据能否进入正式交付层。</p>
+            </div>
+            <dl class="hero-stats" aria-label="项目文件规模">
+                <div><dt>6,190</dt><dd>论文记录</dd></div>
+                <div><dt>3,849</dt><dd>专利记录</dd></div>
+                <div><dt>86</dt><dd>Python 源码文件</dd></div>
+                <div><dt>50</dt><dd>测试文件</dd></div>
+            </dl>
+        </section>
+
+        <section class="pipeline" aria-labelledby="pipeline-title">
+            <header class="section-heading">
+                <p>01 / DATA PIPELINE</p>
+                <h2 id="pipeline-title">数据不是被“抓下来”就结束了</h2>
+            </header>
+            <ol class="pipeline-list">
+                <li><span>01</span><strong>数据来源</strong><small>学院官网 · Crossref · OpenAlex</small></li>
+                <li><span>02</span><strong>采集与解析</strong><small>教师 · 论文 · 专利 · 项目</small></li>
+                <li><span>03</span><strong>清洗与补全</strong><small>去重 · 身份匹配 · DOI · 摘要</small></li>
+                <li><span>04</span><strong>审核与门禁</strong><small>证据追溯 · 人工审核 · 完整性检查</small></li>
+                <li><span>05</span><strong>可信交付</strong><small>稳定编号 · 可回滚 · Excel 导出</small></li>
+            </ol>
+        </section>
+
+        <section class="verification" aria-labelledby="verification-title">
+            <header class="section-heading section-heading--split">
+                <div>
+                    <p>02 / INTERACTIVE VERIFICATION</p>
+                    <h2 id="verification-title">一条论文记录如何变得可信</h2>
+                </div>
+                <p class="section-intro">点击左侧阶段，查看同一条候选记录如何逐步获得正式证据、完成作者匹配与摘要补全，并最终通过质量门禁。</p>
+            </header>
+
+            <div class="verification-lab">
+                <nav class="stage-list" aria-label="论文核验阶段">
+                    <button type="button" class="stage-button is-active" data-stage="0" aria-pressed="true"><span>1</span><b>原始记录</b><small>STATE A</small></button>
+                    <button type="button" class="stage-button" data-stage="1" aria-pressed="false"><span>2</span><b>正式来源核验</b><small>EVIDENCE</small></button>
+                    <button type="button" class="stage-button" data-stage="2" aria-pressed="false"><span>3</span><b>作者身份匹配</b><small>MATCHED</small></button>
+                    <button type="button" class="stage-button" data-stage="3" aria-pressed="false"><span>4</span><b>技术摘要补全</b><small>ENRICHED</small></button>
+                    <button type="button" class="stage-button" data-stage="4" aria-pressed="false"><span>5</span><b>质量门禁</b><small>ACCEPT</small></button>
+                </nav>
+
+                <article class="record-panel" aria-live="polite">
+                    <header class="record-header">
+                        <div>
+                            <p>L000001 · DEMO RECORD</p>
+                            <h3>Scour Protection Effects of a Geotextile Mattress with Floating Plate on a Pipeline</h3>
+                        </div>
+                        <span id="record-status">待处理</span>
+                    </header>
+
+                    <dl class="record-fields">
+                        <div><dt>DOI / 正式来源</dt><dd id="field-doi" class="is-pending">待核验</dd></div>
+                        <div><dt>校内作者</dt><dd id="field-author" class="is-pending">Liquan Xie</dd></div>
+                        <div><dt>技术摘要</dt><dd id="field-summary" class="is-pending">空缺</dd></div>
+                        <div><dt>数据库写入</dt><dd>0 次</dd></div>
+                    </dl>
+
+                    <div class="gate-result">
+                        <div><strong id="gate-title">原始候选已冻结</strong><span id="gate-verdict">STATE A</span></div>
+                        <p id="gate-note">候选值只是待核验数据。此时不会覆盖正式库，也不会把缺失字段当作事实。</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="principles" aria-labelledby="principles-title">
+            <header class="section-heading">
+                <p>03 / WHY IT IS TRUSTWORTHY</p>
+                <h2 id="principles-title">模型可以判断，系统必须留痕</h2>
+            </header>
+            <div class="principle-grid">
+                <article>
+                    <span>RULE</span>
+                    <h3>确定性程序</h3>
+                    <p>负责格式检查、标准化、去重、事务写入与回滚。相同输入重复运行，不应产生重复记录。</p>
+                </article>
+                <article>
+                    <span>AGENT</span>
+                    <h3>证据核验</h3>
+                    <p>阅读出版社或会议等正式页面，核对 DOI、标题、年份、期刊与作者名单，并保存证据地址。</p>
+                </article>
+                <article>
+                    <span>GATE</span>
+                    <h3>质量门禁</h3>
+                    <p>证据不足进入 HOLD，明确冲突才会 REJECT；只有结构完整且证据闭合的数据能够进入交付层。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="contribution" aria-labelledby="contribution-title">
+            <div>
+                <p>04 / MY CONTRIBUTION</p>
+                <h2 id="contribution-title">我完成的部分</h2>
+            </div>
+            <ul>
+                <li>论文与专利数据的清洗、补全与批量处理脚本</li>
+                <li>英文作者名与校内中文教师身份的匹配和复核</li>
+                <li>论文原始摘要获取、技术摘要生成与异常清单</li>
+                <li>Step 7 核验 Agent 的输入输出合同、工具边界与状态设计</li>
+                <li>交付前的字段完整性检查、写入保护与结果反读</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>RESEARCH DATA GOVERNANCE · 2026</p>
+        <a href="../../../index.html#projects">返回全部项目 ↑</a>
+    </footer>
+</body>
+</html>

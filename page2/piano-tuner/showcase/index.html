@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="钢琴智能调律项目案例：从声音采集、音高判断到步进电机微调的产品与技术方案。">
+    <meta name="theme-color" content="#171714">
+    <title>钢琴智能调律｜项目案例</title>
+    <link rel="stylesheet" href="../../project-back.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="../../project-back.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <a class="project-return-link" data-project-id="project-piano-tuner" href="../../../index.html#project-piano-tuner">← 返回项目页</a>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy reveal">
+                <div class="hero-meta">
+                    <span>VIBE CODING · HARDWARE</span>
+                    <span class="status-chip">概念原型</span>
+                </div>
+                <p class="eyebrow">PIANO TUNING ASSISTANT</p>
+                <h1 id="hero-title">让听音、判断与微调，<br>成为一条可见的流程。</h1>
+                <p class="hero-lead">这是一套配合步进电机硬件使用的钢琴调律方案：从麦克风采集琴音，判断频率与拍音偏差，再把“拧紧、拧松或保持”转化为可执行的微调指令。</p>
+                <div class="hero-facts" aria-label="项目特征">
+                    <span><b>88</b> 键定位</span>
+                    <span><b>5</b> 个核心阶段</span>
+                    <span><b>1</b> 套软硬件闭环</span>
+                </div>
+            </div>
+
+            <figure class="hero-visual reveal">
+                <div class="visual-label"><span>INSTRUMENT MAP</span><em>结构定位示意</em></div>
+                <img src="../site/picture-redrawn.svg" alt="钢琴弦轴、琴弦与键盘结构定位示意图">
+                <figcaption>从琴键找到对应弦组与弦轴，是调律流程进入真实乐器的第一步。</figcaption>
+            </figure>
+        </section>
+
+        <section class="problem section-shell reveal" aria-labelledby="problem-title">
+            <header class="section-heading">
+                <p>01 / THE PROBLEM</p>
+                <h2 id="problem-title">调律难的不只是“听准”</h2>
+                <span>声音判断、机械定位与微小操作必须连续发生，任何一步不清楚，都会让初学者失去方向。</span>
+            </header>
+            <div class="problem-grid">
+                <article>
+                    <b>01</b>
+                    <h3>琴键与弦轴如何对应？</h3>
+                    <p>88 个琴键背后是不同数量的琴弦与弦轴。界面需要先把目标音与真实机械位置对应起来。</p>
+                </article>
+                <article>
+                    <b>02</b>
+                    <h3>偏差意味着什么动作？</h3>
+                    <p>频率高低只是测量结果，真正要执行的是方向、幅度和停止条件明确的机械微调。</p>
+                </article>
+                <article>
+                    <b>03</b>
+                    <h3>一次判断并不等于完成</h3>
+                    <p>琴弦张力会相互影响。调节之后还需要重新击键、复检并确认结果是否稳定。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="workflow section-shell reveal" aria-labelledby="workflow-title">
+            <header class="section-heading section-heading--light">
+                <p>02 / GUIDED WORKFLOW</p>
+                <h2 id="workflow-title">把经验拆成五个可以跟随的阶段</h2>
+                <span>点击阶段查看流程示意。下方数值用于解释交互逻辑，并非真实测量结果。</span>
+            </header>
+
+            <div class="workflow-layout">
+                <div class="workflow-tabs" role="tablist" aria-label="调律流程阶段">
+                    <button class="is-active" type="button" role="tab" aria-selected="true" data-stage="0"><i>01</i><span>定位琴键</span><small>A4 · 中央区域</small></button>
+                    <button type="button" role="tab" aria-selected="false" data-stage="1"><i>02</i><span>采集琴音</span><small>麦克风输入</small></button>
+                    <button type="button" role="tab" aria-selected="false" data-stage="2"><i>03</i><span>判断偏差</span><small>频率 · 拍音</small></button>
+                    <button type="button" role="tab" aria-selected="false" data-stage="3"><i>04</i><span>微调弦轴</span><small>方向 · 步数</small></button>
+                    <button type="button" role="tab" aria-selected="false" data-stage="4"><i>05</i><span>重锤复检</span><small>稳定性确认</small></button>
+                </div>
+
+                <div class="tuning-readout" role="tabpanel" aria-live="polite">
+                    <div class="readout-head">
+                        <span id="stage-label">STAGE 01 · KEY MAPPING</span>
+                        <b id="stage-state">等待击键</b>
+                    </div>
+                    <div class="note-display">
+                        <div><strong id="note-name">A4</strong><span id="note-frequency">440.0 Hz</span></div>
+                        <div class="deviation">
+                            <span>FLAT</span>
+                            <div class="deviation-track"><i id="deviation-pointer"></i></div>
+                            <span>SHARP</span>
+                        </div>
+                        <em id="deviation-value">0.0 cents</em>
+                    </div>
+                    <div class="instruction-card">
+                        <p>NEXT ACTION</p>
+                        <strong id="stage-title">找到 A4 对应弦组</strong>
+                        <span id="stage-description">在 88 键键盘上选择目标琴键，同时高亮内部结构图中的弦组与弦轴位置。</span>
+                    </div>
+                    <div class="motor-strip">
+                        <span>MOTOR</span>
+                        <div><i id="motor-progress"></i></div>
+                        <b id="motor-state">未启动</b>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="system section-shell reveal" aria-labelledby="system-title">
+            <header class="section-heading">
+                <p>03 / SYSTEM</p>
+                <h2 id="system-title">从声音到动作的软硬件闭环</h2>
+                <span>界面承担的不只是显示数值，还要把分析结果翻译为安全、有限且可复检的动作。</span>
+            </header>
+
+            <div class="system-flow" aria-label="系统处理流程">
+                <article><i>01</i><span>INPUT</span><strong>麦克风采集</strong><small>琴音与环境噪声</small></article>
+                <b aria-hidden="true">→</b>
+                <article><i>02</i><span>ANALYSIS</span><strong>频率与拍音</strong><small>目标音 · 偏差方向</small></article>
+                <b aria-hidden="true">→</b>
+                <article><i>03</i><span>DECISION</span><strong>调律状态机</strong><small>拧紧 · 拧松 · 保持</small></article>
+                <b aria-hidden="true">→</b>
+                <article><i>04</i><span>OUTPUT</span><strong>步进电机</strong><small>受限角度微调</small></article>
+                <b aria-hidden="true">→</b>
+                <article><i>05</i><span>VERIFY</span><strong>再次击键</strong><small>复检是否稳定</small></article>
+            </div>
+        </section>
+
+        <section class="hardware section-shell reveal" aria-labelledby="hardware-title">
+            <header class="section-heading">
+                <p>04 / INSTRUMENT & HARDWARE</p>
+                <h2 id="hardware-title">软件最终要面对真实的琴弦与机械结构</h2>
+                <span>这也是项目不能只停留在屏幕里的原因。</span>
+            </header>
+
+            <div class="hardware-grid">
+                <figure class="instrument-photo">
+                    <img src="../site/图片.png" alt="钢琴内部琴弦、弦轴和键盘结构图">
+                    <figcaption>钢琴内部结构参考：弦轴、琴弦、击弦机与键盘之间存在明确的空间对应关系。</figcaption>
+                </figure>
+                <article class="hardware-copy">
+                    <p class="eyebrow">PREPARATION</p>
+                    <h3>先隔离目标弦，再进行判断</h3>
+                    <p>同一音区常由多根琴弦共同发声。止音带用于暂时隔离非目标弦，让麦克风采集到更清楚的单弦信号。</p>
+                    <video controls preload="metadata" poster="../site/图片.png">
+                        <source src="../site/mute-strip-tutorial.mp4" type="video/mp4">
+                        当前浏览器不支持视频播放。
+                    </video>
+                    <small>项目已有素材 · 止音带安装教学</small>
+                </article>
+            </div>
+        </section>
+
+        <section class="scope section-shell reveal" aria-labelledby="scope-title">
+            <header class="section-heading">
+                <p>05 / CURRENT SCOPE</p>
+                <h2 id="scope-title">诚实地展示已经完成与仍待验证的部分</h2>
+            </header>
+            <div class="scope-grid">
+                <article class="scope-done">
+                    <span>COMPLETED</span>
+                    <h3>已经建立的框架</h3>
+                    <ul>
+                        <li>从选键到复检的完整产品流程</li>
+                        <li>88 键、弦组与弦轴定位逻辑</li>
+                        <li>调律状态机与模拟模式</li>
+                        <li>硬件通信和步进电机控制接口设计</li>
+                        <li>音频分析、控制与复检界面框架</li>
+                    </ul>
+                </article>
+                <article class="scope-next">
+                    <span>TO VALIDATE</span>
+                    <h3>仍需要真实场景验证</h3>
+                    <ul>
+                        <li>复杂环境中的基频与拍音识别精度</li>
+                        <li>不同琴型对应的机械参数与安全边界</li>
+                        <li>电机微调量和音高变化之间的标定</li>
+                        <li>完整硬件联调与异常恢复机制</li>
+                        <li>长期使用中的稳定性和重复性</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="role reveal" aria-labelledby="role-title">
+            <p>06 / MY ROLE</p>
+            <h2 id="role-title">我负责把一个模糊想法，整理成可以讨论、实现与验证的系统。</h2>
+            <div>
+                <span>产品流程</span>
+                <span>交互设计</span>
+                <span>调律状态机</span>
+                <span>音频分析框架</span>
+                <span>硬件通信适配</span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>PIANO TUNING ASSISTANT · CONCEPT PROTOTYPE</p>
+        <a href="../../../index.html#project-piano-tuner">返回全部项目 ↑</a>
+    </footer>
+</body>
+</html>

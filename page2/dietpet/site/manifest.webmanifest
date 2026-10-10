@@ -1,0 +1,29 @@
+{
+  "name": "DietPet 减肥助手",
+  "short_name": "DietPet",
+  "description": "与桌面宠物配合使用的饮食、饮水、运动和体重记录面板。",
+  "start_url": "./?platform=mobile",
+  "display": "standalone",
+  "background_color": "#f7fbff",
+  "theme_color": "#f7fbff",
+  "icons": [
+    {
+      "src": "./dietpet-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./dietpet-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./dietpet-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

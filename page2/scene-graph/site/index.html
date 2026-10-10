@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="时序场景图预测与长视频理解科研经历：研究调研、SceneSayer 复现、多卡训练适配与长期记忆实验设计。">
+    <title>时序场景图预测与长视频理解</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../project-back.css">
+    <script defer src="script.js"></script>
+    <script defer src="../../project-back.js"></script>
+</head>
+<body>
+    <a class="project-return-link" data-project-id="project-scene-graph" href="../../../index.html#project-scene-graph">← 返回项目页</a>
+    <div class="page-glow page-glow--blue" aria-hidden="true"></div>
+    <div class="page-glow page-glow--rose" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <p>WDQL · RESEARCH NOTE</p>
+        <span>OBJECT / RELATION / TIME</span>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow">TEMPORAL SCENE GRAPH FORECASTING</p>
+                <h1 id="hero-title">从“理解当前”，<br>到“预测未来”</h1>
+                <p class="hero-lead">让模型不只识别视频里有什么，还能理解对象关系如何随时间变化，并推演接下来可能发生什么。</p>
+                <dl class="hero-stats" aria-label="研究工作概览">
+                    <div><dt>8</dt><dd>篇核心论文</dd></div>
+                    <div><dt>14</dt><dd>类长视频评测</dd></div>
+                    <div><dt>3</dt><dd>组工程补丁</dd></div>
+                    <div><dt>6</dt><dd>个预测跨度</dd></div>
+                </dl>
+            </div>
+
+            <div class="forecast-lab" aria-label="时序场景图概念演示">
+                <div class="lab-topline"><span>CONCEPT DEMO</span><b id="observe-label">观察 50%</b></div>
+                <div class="frame-strip" aria-hidden="true">
+                    <i class="is-seen">01</i><i class="is-seen">02</i><i class="is-seen">03</i><i>04</i><i>05</i><i>06</i>
+                </div>
+                <div class="graph-pair">
+                    <article class="graph-panel">
+                        <header><span>OBSERVED</span><b>当前关系</b></header>
+                        <svg viewBox="0 0 260 190" role="img" aria-label="已观察场景图">
+                            <line class="graph-line" x1="72" y1="62" x2="185" y2="126"></line>
+                            <g class="graph-node graph-node--person" transform="translate(72 62)"><circle r="31"></circle><text>PERSON</text></g>
+                            <g class="graph-node graph-node--object" transform="translate(185 126)"><circle r="27"></circle><text>CUP</text></g>
+                            <g class="relation-label" transform="translate(130 92)"><rect x="-31" y="-12" width="62" height="24" rx="12"></rect><text id="observed-relation">near</text></g>
+                        </svg>
+                    </article>
+                    <div class="now-divider"><span>NOW</span></div>
+                    <article class="graph-panel graph-panel--future">
+                        <header><span>FORECAST</span><b>未来关系</b></header>
+                        <svg viewBox="0 0 260 190" role="img" aria-label="预测未来场景图">
+                            <line class="graph-line" x1="84" y1="82" x2="169" y2="107"></line>
+                            <g class="graph-node graph-node--person" transform="translate(84 82)"><circle r="31"></circle><text>PERSON</text></g>
+                            <g class="graph-node graph-node--object" transform="translate(169 107)"><circle r="27"></circle><text>CUP</text></g>
+                            <g class="relation-label" transform="translate(130 91)"><rect x="-34" y="-12" width="68" height="24" rx="12"></rect><text id="future-relation">holding</text></g>
+                        </svg>
+                    </article>
+                </div>
+                <label class="observation-control" for="observation-range">
+                    <span>已观察视频</span>
+                    <input id="observation-range" type="range" min="30" max="80" step="10" value="50">
+                    <span>未观察未来</span>
+                </label>
+                <p id="lab-caption">观察到 person 靠近 cup，模型需要预测关系是否将转变为 holding。</p>
+            </div>
+        </section>
+
+        <section class="research-question" aria-labelledby="question-title">
+            <p class="section-index">01 / RESEARCH QUESTION</p>
+            <div>
+                <h2 id="question-title">机器能否从已经发生的关系，预判尚未发生的交互？</h2>
+                <p>场景图把视频表示为对象节点与关系边。时序场景图预测进一步要求模型根据历史图序列，预测未来对象、位置及关系的出现、持续和消失。</p>
+            </div>
+        </section>
+
+        <section class="journey" aria-labelledby="journey-title">
+            <header class="section-heading">
+                <p>02 / RESEARCH JOURNEY</p>
+                <h2 id="journey-title">我的研究路径</h2>
+            </header>
+            <ol class="journey-list">
+                <li><span>01</span><time>表示当前</time><h3>对象与关系</h3><p>从 Action Genome 理解如何把动作拆成随时间变化的对象关系。</p><small>Action Genome</small></li>
+                <li><span>02</span><time>时空建模</time><h3>保持长期一致</h3><p>追踪空间上下文、跨帧依赖与长时间对象轨迹。</p><small>STTran · DSG-DETR</small></li>
+                <li><span>03</span><time>预测未来</time><h3>推演关系演化</h3><p>研究如何从视频前缀预测未来关系、对象与空间位置。</p><small>APT · SceneSayer · FDSG</small></li>
+                <li><span>04</span><time>走向真实应用</time><h3>长时、长尾与推理</h3><p>继续关注长期记忆、高阶交互和分布偏移下的鲁棒性。</p><small>HyperGLM · IMPARTAIL</small></li>
+            </ol>
+        </section>
+
+        <section class="work" aria-labelledby="work-title">
+            <header class="section-heading section-heading--split">
+                <div><p>03 / MY WORK</p><h2 id="work-title">从读懂论文，到拆解研究系统</h2></div>
+                <p>展示重点不是收藏了多少论文，而是每一步如何改变我对问题、数据与实验的理解。</p>
+            </header>
+            <div class="work-grid">
+                <article><span>01</span><h3>文献脉络</h3><p>围绕表示、生成、预测与鲁棒性，完成 8 篇核心论文的技术路线拆解。</p></article>
+                <article><span>02</span><h3>数据集调研</h3><p>比较场景图与长视频评测的数据规模、标注结构、任务设置和获取限制。</p></article>
+                <article><span>03</span><h3>SceneSayer 复现</h3><p>沿数据准备、模型训练、推理和评测流程理解连续时间关系预测系统。</p></article>
+                <article><span>04</span><h3>实验延伸</h3><p>把长期场景图记忆转化为可检验的对照实验，而不是停留在概念设想。</p></article>
+            </div>
+        </section>
+
+        <section class="engineering" aria-labelledby="engineering-title">
+            <header class="section-heading">
+                <p>04 / REPRODUCTION ENGINEERING</p>
+                <h2 id="engineering-title">复现中真正遇到的问题</h2>
+            </header>
+            <div class="engineering-board">
+                <div class="engineering-flow" aria-label="多卡训练适配流程">
+                    <article><small>ISSUE 01</small><h3>设备硬编码</h3><code>cuda:0</code><p>张量被固定放入首张显卡，破坏多进程设备隔离。</p></article>
+                    <i aria-hidden="true">→</i>
+                    <article><small>FIX</small><h3>动态设备绑定</h3><code>LOCAL_RANK</code><p>让检测器与中间张量跟随当前进程所在设备。</p></article>
+                    <i aria-hidden="true">→</i>
+                    <article><small>RESULT</small><h3>可扩展训练路径</h3><code>DDP + AMP</code><p>补充混合精度、分布式封装与跨卡评测结果汇总。</p></article>
+                </div>
+                <p class="engineering-note">文件中保留了三组补丁，分别处理 DDP 与 AMP、设备映射及评测结果汇总。这里展示工程问题与解决路径，不把复现包装成新的算法贡献。</p>
+            </div>
+        </section>
+
+        <section class="experiment" aria-labelledby="experiment-title">
+            <header class="section-heading section-heading--split">
+                <div><p>05 / NEXT HYPOTHESIS</p><h2 id="experiment-title">长期记忆真的能预测得更远吗？</h2></div>
+                <p>固定模型与训练策略，只改变训练数据是否保留长时连续性、推理时是否提供历史记忆。</p>
+            </header>
+
+            <div class="experiment-layout">
+                <div class="matrix" role="group" aria-label="四组长视频记忆对照实验">
+                    <div class="matrix-corner">训练数据 ↓<br>推理输入 →</div>
+                    <div class="matrix-head">当前短片段</div>
+                    <div class="matrix-head">当前图 + 长期记忆</div>
+                    <div class="matrix-side">短视频场景图</div>
+                    <button type="button" class="matrix-cell is-active" data-group="ss"><b>S-S</b><span>短视频基线</span></button>
+                    <button type="button" class="matrix-cell" data-group="sl"><b>S-L</b><span>仅增加历史</span></button>
+                    <div class="matrix-side">长视频场景图</div>
+                    <button type="button" class="matrix-cell" data-group="ls"><b>L-S</b><span>仅增加长程监督</span></button>
+                    <button type="button" class="matrix-cell" data-group="ll"><b>L-L</b><span>完整方案</span></button>
+                </div>
+
+                <aside class="experiment-readout" aria-live="polite">
+                    <p>SELECTED GROUP</p>
+                    <strong id="group-name">S-S · 短视频基线</strong>
+                    <span id="group-description">用短视频场景图微调，只输入当前短片段图，建立基础比较线。</span>
+                    <div class="horizon-control">
+                        <p>预测跨度</p>
+                        <div role="group" aria-label="选择预测跨度">
+                            <button type="button" data-horizon="5">5s</button>
+                            <button type="button" class="is-active" data-horizon="15">15s</button>
+                            <button type="button" data-horizon="30">30s</button>
+                            <button type="button" data-horizon="60">60s</button>
+                            <button type="button" data-horizon="120">120s</button>
+                            <button type="button" data-horizon="300">300s</button>
+                        </div>
+                    </div>
+                    <p class="readout-question" id="readout-question">在 15 秒跨度上比较关系预测、状态变化与实体一致性。</p>
+                </aside>
+            </div>
+        </section>
+
+        <section class="takeaway" aria-labelledby="takeaway-title">
+            <p>06 / RESEARCH TAKEAWAY</p>
+            <h2 id="takeaway-title">这段经历让我从“复现一个模型”，走向“提出一个可以被证伪的问题”。</h2>
+            <p>最终要验证的不是记忆机制听起来是否合理，而是它能否在 30 秒、60 秒乃至更长跨度上，稳定改善关系预测、状态变化和实体一致性。</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>TEMPORAL SCENE GRAPH FORECASTING · 2026</p>
+        <a href="../../../index.html#projects">返回全部项目 ↑</a>
+    </footer>
+</body>
+</html>
