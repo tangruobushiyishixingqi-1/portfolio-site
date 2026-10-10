@@ -13,6 +13,17 @@
                 <div class="stars">
                     <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
                 </div>
+                <div class="silver-sparkles" aria-hidden="true">
+                    <i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <svg class="top-feather top-feather--left" viewBox="0 0 120 260" fill="none" aria-hidden="true">
+                    <path d="M99 12C45 44 17 105 23 170c4 42 30 69 42 78 2-35 11-62 28-91 22-38 28-91 6-145Z" fill="currentColor" fill-opacity=".13"/>
+                    <path d="M24 244c16-73 43-137 78-232M39 196l-24-32m37 1-31-35m45 1L42 91m57 6L72 67m34 1L83 38" stroke="currentColor" stroke-opacity=".4" stroke-width="1.1" stroke-linecap="round"/>
+                </svg>
+                <svg class="top-feather top-feather--right" viewBox="0 0 120 260" fill="none" aria-hidden="true">
+                    <path d="M99 12C45 44 17 105 23 170c4 42 30 69 42 78 2-35 11-62 28-91 22-38 28-91 6-145Z" fill="currentColor" fill-opacity=".13"/>
+                    <path d="M24 244c16-73 43-137 78-232M39 196l-24-32m37 1-31-35m45 1L42 91m57 6L72 67m34 1L83 38" stroke="currentColor" stroke-opacity=".4" stroke-width="1.1" stroke-linecap="round"/>
+                </svg>
                 <a class="feather-link feather-link--upper" href="#projects" aria-label="打开项目页">
                     <svg class="feather" viewBox="0 0 120 260" fill="none" aria-hidden="true">
                         <path d="M99 12C45 44 17 105 23 170c4 42 30 69 42 78 2-35 11-62 28-91 22-38 28-91 6-145Z" fill="currentColor" fill-opacity=".16"/>
