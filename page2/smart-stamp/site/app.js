@@ -1,5 +1,4 @@
 (() => {
-  const API_BASE = 'https://alone-reducing-baby-second.trycloudflare.com';
   const SERVICE_DEFAULT = '4FAFC201-1FB5-459E-8FCC-C5C9C331914B';
   const CHAR_DEFAULT = 'BEB5483E-36E1-4688-B7F5-EA07361B26A8';
   const $ = (id) => document.getElementById(id);
@@ -71,24 +70,159 @@
     setStatus('图片已就绪。');
   });
 
-  function imageToSquareBlob(file) {
+  function loadImageFile(file) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       const url = URL.createObjectURL(file);
       image.onload = () => {
-        const side = Math.min(image.naturalWidth, image.naturalHeight);
-        const sx = (image.naturalWidth - side) / 2;
-        const sy = (image.naturalHeight - side) / 2;
-        const size = 1024;
-        workCanvas.width = workCanvas.height = size;
-        workCtx.clearRect(0, 0, size, size);
-        workCtx.drawImage(image, sx, sy, side, side, 0, 0, size, size);
         URL.revokeObjectURL(url);
-        workCanvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('无法读取图片')), 'image/png');
+        resolve(image);
       };
       image.onerror = () => { URL.revokeObjectURL(url); reject(new Error('图片读取失败')); };
       image.src = url;
     });
+  }
+
+  function gaussianBlur(source, width, height, passes) {
+    let input = new Float32Array(source);
+    for (let pass = 0; pass < passes; pass++) {
+      const horizontal = new Float32Array(input.length);
+      const output = new Float32Array(input.length);
+      for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+        const left = input[y * width + Math.max(0, x - 1)];
+        const center = input[y * width + x];
+        const right = input[y * width + Math.min(width - 1, x + 1)];
+        horizontal[y * width + x] = (left + center * 2 + right) / 4;
+      }
+      for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+        const top = horizontal[Math.max(0, y - 1) * width + x];
+        const center = horizontal[y * width + x];
+        const bottom = horizontal[Math.min(height - 1, y + 1) * width + x];
+        output[y * width + x] = (top + center * 2 + bottom) / 4;
+      }
+      input = output;
+    }
+    return input;
+  }
+
+  function extractEdges(gray, width, height, currentMode) {
+    const blurred = gaussianBlur(gray, width, height, currentMode === 'improved' ? 2 : 1);
+    const magnitudes = new Float32Array(width * height);
+    const histogram = new Uint32Array(256);
+    let samples = 0;
+    for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
+      const offset = y * width + x;
+      const topLeft = blurred[offset - width - 1];
+      const top = blurred[offset - width];
+      const topRight = blurred[offset - width + 1];
+      const left = blurred[offset - 1];
+      const right = blurred[offset + 1];
+      const bottomLeft = blurred[offset + width - 1];
+      const bottom = blurred[offset + width];
+      const bottomRight = blurred[offset + width + 1];
+      const gx = -topLeft + topRight - left * 2 + right * 2 - bottomLeft + bottomRight;
+      const gy = -topLeft - top * 2 - topRight + bottomLeft + bottom * 2 + bottomRight;
+      const magnitude = Math.min(255, Math.hypot(gx, gy));
+      magnitudes[offset] = magnitude;
+      histogram[Math.round(magnitude)]++;
+      samples++;
+    }
+    const target = samples * (currentMode === 'improved' ? .72 : .78);
+    let threshold = currentMode === 'improved' ? 14 : 18;
+    let cumulative = 0;
+    for (let value = 0; value < histogram.length; value++) {
+      cumulative += histogram[value];
+      if (cumulative >= target) { threshold = Math.max(threshold, value); break; }
+    }
+    const raw = new Uint8Array(width * height);
+    for (let i = 0; i < raw.length; i++) raw[i] = magnitudes[i] >= threshold ? 1 : 0;
+    const cleaned = new Uint8Array(raw.length);
+    for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
+      const offset = y * width + x;
+      if (!raw[offset]) continue;
+      let neighbors = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        if ((dx || dy) && raw[offset + dy * width + dx]) neighbors++;
+      }
+      if (neighbors >= (currentMode === 'improved' ? 2 : 1) || magnitudes[offset] >= threshold * 1.6) cleaned[offset] = 1;
+    }
+    return cleaned;
+  }
+
+  function resizeEdgeMask(source, sourceWidth, sourceHeight, targetWidth, targetHeight) {
+    if (sourceWidth === targetWidth && sourceHeight === targetHeight) return source;
+    const output = new Uint8Array(targetWidth * targetHeight);
+    for (let y = 0; y < targetHeight; y++) for (let x = 0; x < targetWidth; x++) {
+      const x0 = Math.floor(x * sourceWidth / targetWidth);
+      const x1 = Math.max(x0 + 1, Math.ceil((x + 1) * sourceWidth / targetWidth));
+      const y0 = Math.floor(y * sourceHeight / targetHeight);
+      const y1 = Math.max(y0 + 1, Math.ceil((y + 1) * sourceHeight / targetHeight));
+      let edgePixels = 0;
+      let pixels = 0;
+      for (let sy = y0; sy < y1; sy++) for (let sx = x0; sx < x1; sx++) {
+        edgePixels += source[sy * sourceWidth + sx];
+        pixels++;
+      }
+      if (edgePixels >= Math.max(1, Math.ceil(pixels * .035))) output[y * targetWidth + x] = 1;
+    }
+    return output;
+  }
+
+  function dilateMask(source, width, height, radius) {
+    if (radius <= 0) return source;
+    const output = new Uint8Array(source.length);
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+      if (!source[y * width + x]) continue;
+      for (let dy = -radius; dy <= radius; dy++) for (let dx = -radius; dx <= radius; dx++) {
+        const px = x + dx;
+        const py = y + dy;
+        if (px >= 0 && py >= 0 && px < width && py < height && dx * dx + dy * dy <= radius * radius) {
+          output[py * width + px] = 1;
+        }
+      }
+    }
+    return output;
+  }
+
+  async function processImageLocally(file, outputSize, currentMode, thicknessScale) {
+    const image = await loadImageFile(file);
+    const processSize = 384;
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = sourceCanvas.height = processSize;
+    const sourceContext = sourceCanvas.getContext('2d', { willReadFrequently: true });
+    const side = Math.min(image.naturalWidth, image.naturalHeight);
+    const sx = (image.naturalWidth - side) / 2;
+    const sy = (image.naturalHeight - side) / 2;
+    sourceContext.drawImage(image, sx, sy, side, side, 0, 0, processSize, processSize);
+    const pixels = sourceContext.getImageData(0, 0, processSize, processSize).data;
+    const gray = new Uint8Array(processSize * processSize);
+    for (let i = 0; i < gray.length; i++) {
+      const offset = i * 4;
+      gray[i] = Math.round(pixels[offset] * .299 + pixels[offset + 1] * .587 + pixels[offset + 2] * .114);
+    }
+    const width = outputSize ? outputSize.width : processSize;
+    const height = outputSize ? outputSize.height : processSize;
+    let mask = resizeEdgeMask(extractEdges(gray, processSize, processSize, currentMode), processSize, processSize, width, height);
+    const baseWidth = currentMode === 'improved' ? 4 : 3;
+    const averageScale = (width + height) / (processSize * 2);
+    const radius = Math.max(0, Math.min(6, Math.round(baseWidth * Math.max(.25, thicknessScale) * averageScale / 2)));
+    mask = dilateMask(mask, width, height, radius);
+    const outputCanvas = document.createElement('canvas');
+    outputCanvas.width = width;
+    outputCanvas.height = height;
+    const outputContext = outputCanvas.getContext('2d');
+    const outputImage = outputContext.createImageData(width, height);
+    for (let i = 0; i < mask.length; i++) {
+      const value = mask[i] ? 0 : 255;
+      const offset = i * 4;
+      outputImage.data[offset] = outputImage.data[offset + 1] = outputImage.data[offset + 2] = value;
+      outputImage.data[offset + 3] = 255;
+    }
+    outputContext.putImageData(outputImage, 0, 0);
+    const blob = await new Promise((resolve, reject) => {
+      outputCanvas.toBlob((value) => value ? resolve(value) : reject(new Error('无法生成线稿图片')), 'image/png');
+    });
+    return { blob, width, height };
   }
 
   $('generate').addEventListener('click', async () => {
@@ -96,29 +230,17 @@
     const button = $('generate');
     button.disabled = true;
     button.textContent = '处理中…';
-    setStatus('正在上传并生成线稿…');
+    setStatus('正在本地生成线稿…');
     try {
-      const blob = await imageToSquareBlob(sourceFile);
-      const form = new FormData();
-      form.append('image', blob, 'stamp-source.png');
-      form.append('mode', mode);
-      form.append('use_clahe', 'false');
-      form.append('clahe_clip', '2.0');
-      form.append('thickness_scale', String($('thickness').value));
       const size = $('resize-toggle').checked ? dimensions() : null;
-      form.append('output_size', size ? `${size.width},${size.height}` : '');
-      const response = await fetch(`${API_BASE}/api/sketch2anime_upload`, { method: 'POST', body: form });
-      const result = await response.json();
-      if (!response.ok || !result.success || !result.image_base64) throw new Error(result.error || `服务返回 ${response.status}`);
-      const data = Uint8Array.from(atob(result.image_base64), (character) => character.charCodeAt(0));
-      const resultBlob = new Blob([data], { type: 'image/png' });
-      await imageBlobToGrid(resultBlob, size ? size.width : result.width, size ? size.height : result.height);
+      const result = await processImageLocally(sourceFile, size, mode, Number($('thickness').value));
+      await imageBlobToGrid(result.blob, result.width, result.height);
       $('result-panel').hidden = false;
       $('result-title').textContent = size ? '印章预览' : '线稿结果';
       $('result-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
       setStatus('图片处理成功。');
     } catch (error) {
-      setStatus(`处理失败：${error.message}。请检查服务地址、网络和服务状态。`);
+      setStatus(`处理失败：${error.message}。请更换图片后重试。`);
     } finally {
       button.disabled = !sourceFile;
       button.textContent = '生成图片';
@@ -229,8 +351,13 @@
     if (!grid) return;
     const blob = await gridPngBlob();
     const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob); link.download = 'stamp.png'; link.click();
-    URL.revokeObjectURL(link.href);
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = 'stamp.png';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
   $('reset').addEventListener('click', () => {
     blankGrid(32, 32); $('result-panel').hidden = false; setStatus('可以重新选择图片并生成。');

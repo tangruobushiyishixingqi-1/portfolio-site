@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1600" preserveAspectRatio="none" fill="none">
+  <defs>
+    <linearGradient id="wind-ink" x1="96" y1="1518" x2="724" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#78958b" stop-opacity=".62"/>
+      <stop offset=".5" stop-color="#a47789" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#8796ac" stop-opacity=".58"/>
+    </linearGradient>
+    <linearGradient id="wind-mist" x1="126" y1="1435" x2="682" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d7e5de" stop-opacity=".04"/>
+      <stop offset=".52" stop-color="#e2c3cf" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#c6d0de" stop-opacity=".05"/>
+    </linearGradient>
+    <filter id="wind-soft" x="-15%" y="-8%" width="130%" height="116%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+    <style>
+      .wind-feather-edge {
+        stroke-dasharray: 18 14 62 16;
+        animation: wind-feather-edge-flow 8s linear infinite;
+      }
+      .wind-feather-edge--reverse {
+        stroke-dasharray: 8 17 45 12;
+        animation: wind-feather-edge-reverse 11s linear infinite;
+      }
+      .wind-orbit {
+        stroke-dasharray: 3 13 30 18;
+        animation: wind-orbit-flow 10s linear infinite;
+      }
+      .wind-orbit--two { animation-delay: -3.4s; }
+      .wind-orbit--three { animation-delay: -6.8s; }
+      .wind-star {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: wind-star-glint 4.8s ease-in-out infinite;
+      }
+      .wind-star--two { animation-delay: -2.1s; }
+      @keyframes wind-feather-edge-flow { to { stroke-dashoffset: -220; } }
+      @keyframes wind-feather-edge-reverse { to { stroke-dashoffset: 180; } }
+      @keyframes wind-orbit-flow { to { stroke-dashoffset: -196; } }
+      @keyframes wind-star-glint {
+        0%, 100% { opacity: .28; transform: scale(.72); }
+        50% { opacity: .85; transform: scale(1.08); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .wind-feather-edge,
+        .wind-feather-edge--reverse,
+        .wind-orbit,
+        .wind-star { animation: none; }
+      }
+    </style>
+  </defs>
+
+  <path
+    d="M720 42C609 105 493 219 390 376 280 514 190 685 154 865c-32 159-72 380-142 690 145-147 275-309 400-501 105-135 144-278 132-432-12-158 34-319 104-435 38-64 62-112 72-145Z"
+    fill="url(#wind-mist)"
+    filter="url(#wind-soft)"
+  />
+
+  <g id="wind-barbs" stroke="url(#wind-ink)" stroke-width="1.55" stroke-linecap="round" opacity=".74">
+    <path d="M167 1345C128 1391 96 1418 65 1438"/>
+    <path d="M198 1282C142 1342 105 1364 73 1377"/>
+    <path d="M226 1218C159 1280 112 1300 75 1307"/>
+    <path d="M254 1150C176 1215 119 1230 79 1230"/>
+    <path d="M282 1078C191 1148 125 1157 81 1147"/>
+    <path d="M310 1004C211 1068 136 1071 89 1054"/>
+    <path d="M337 927C232 984 154 977 105 954"/>
+    <path d="M364 850C258 899 178 885 126 855"/>
+    <path d="M391 772C287 811 209 789 155 754"/>
+    <path d="M419 693C318 721 245 694 187 652"/>
+    <path d="M448 615C350 631 282 601 224 556"/>
+    <path d="M479 537C388 543 324 511 267 464"/>
+    <path d="M510 461C429 458 370 426 318 380"/>
+    <path d="M544 385C473 374 423 343 375 298"/>
+    <path d="M579 314C519 298 478 269 439 228"/>
+    <path d="M615 247C568 228 536 201 507 168"/>
+    <path d="M651 184C616 164 593 143 573 116"/>
+    <path d="M686 119C662 101 647 84 636 66"/>
+
+    <path d="M169 1346C222 1319 273 1282 325 1228"/>
+    <path d="M200 1283C263 1254 321 1213 376 1156"/>
+    <path d="M229 1219C299 1192 362 1149 421 1091"/>
+    <path d="M257 1151C333 1127 402 1084 466 1028"/>
+    <path d="M285 1079C366 1058 440 1016 507 961"/>
+    <path d="M313 1005C400 986 476 946 542 894"/>
+    <path d="M340 928C429 911 505 874 570 826"/>
+    <path d="M367 851C459 835 534 803 594 760"/>
+    <path d="M394 773C487 757 558 730 616 692"/>
+    <path d="M422 694C512 678 580 655 633 622"/>
+    <path d="M451 616C538 598 601 577 650 549"/>
+    <path d="M482 538C564 519 620 500 664 476"/>
+    <path d="M513 462C588 440 640 424 679 404"/>
+    <path d="M547 386C615 361 658 346 692 328"/>
+    <path d="M582 315C642 289 677 275 704 260"/>
+    <path d="M618 248C668 222 696 210 717 197"/>
+    <path d="M654 185C693 162 715 151 730 140"/>
+    <path d="M689 120C715 102 730 92 741 82"/>
+  </g>
+  <use href="#wind-barbs" transform="translate(0 -9)" opacity=".28"/>
+  <use href="#wind-barbs" transform="translate(0 11)" opacity=".2"/>
+
+  <g stroke="url(#wind-ink)" stroke-linecap="round" fill="none">
+    <path class="wind-feather-edge" stroke-width="2.5" opacity=".78" d="M8 1572C72 1518 118 1458 167 1345 218 1228 254 1150 312 996 350 893 365 850 391 772 448 609 514 444 579 314 638 197 684 106 720 42"/>
+    <path class="wind-feather-edge wind-feather-edge--reverse" stroke-width="1.5" opacity=".58" d="M28 1544C89 1488 134 1421 183 1313 230 1210 267 1119 324 965 365 854 383 785 409 711 468 544 534 385 598 270 650 175 692 91 720 42"/>
+    <path class="wind-feather-edge" stroke-width="2.2" opacity=".68" d="M325 1228C452 1111 543 975 570 826 598 670 621 520 679 404 701 360 719 309 725 257"/>
+  </g>
+
+  <path
+    d="M8 1590c36-25 62-48 83-74 40-53 72-111 104-184 66-151 117-294 145-451 31-171 66-306 127-422 77-145 172-289 253-417"
+    stroke="url(#wind-ink)"
+    stroke-width="6.5"
+    stroke-linecap="round"
+  />
+  <path
+    d="M12 1586c34-24 60-47 83-75 39-52 71-110 103-181 65-150 115-292 143-449 31-170 66-304 127-420 76-144 171-287 252-418"
+    stroke="#fff"
+    stroke-opacity=".46"
+    stroke-width="1.4"
+    stroke-linecap="round"
+  />
+
+  <g stroke="url(#wind-ink)" stroke-linecap="round" fill="none" opacity=".5">
+    <path class="wind-orbit" stroke-width="1.6" d="M92 1247c-90-66-52-157 47-150 82 6 91 86 28 119-51 27-100-7-79-49"/>
+    <path class="wind-orbit wind-orbit--two" stroke-width="1.35" d="M248 1372c-116 70-185 7-122-77 46-62 139-49 152 17"/>
+    <path class="wind-orbit wind-orbit--three" stroke-width="1.55" d="M511 845c132-95 251-65 242 39-7 77-103 109-158 53-40-41-17-91 33-103"/>
+    <path class="wind-orbit wind-orbit--two" stroke-width="1.3" d="M447 522c99-119 231-129 286-50 46 66-12 137-88 118"/>
+    <path class="wind-orbit wind-orbit--three" stroke-width="1.25" d="M575 255c74-78 153-72 177-9 18 47-29 86-74 64"/>
+  </g>
+
+  <g stroke="url(#wind-ink)" stroke-linecap="round">
+    <g class="wind-star" opacity=".65" transform="translate(109 1023)">
+      <path d="M0-18V18M-18 0H18" stroke-width="1.5"/>
+      <path d="M-9-9 9 9M9-9-9 9" stroke-width=".8"/>
+    </g>
+    <g class="wind-star wind-star--two" opacity=".58" transform="translate(702 703)">
+      <path d="M0-14V14M-14 0H14" stroke-width="1.3"/>
+      <path d="M-7-7 7 7M7-7-7 7" stroke-width=".7"/>
+    </g>
+    <g class="wind-star" opacity=".52" transform="translate(541 1160)">
+      <path d="M0-11V11M-11 0H11" stroke-width="1.1"/>
+      <path d="M-6-6 6 6M6-6-6 6" stroke-width=".65"/>
+    </g>
+  </g>
+</svg>

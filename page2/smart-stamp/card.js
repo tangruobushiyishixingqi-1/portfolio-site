@@ -13,7 +13,7 @@ window.portfolioProjects.push({
             </div>
             <div class="project-showcase" aria-label="智能印章项目展示与入口">
                 <div class="project-art stamp-art" aria-label="印章点阵预览"><span>印</span><i>32 × 32</i></div>
-                <div class="project-web-links"><a href="page2/smart-stamp/site/index.html?v=20261010">打开网页模拟 <span>↗</span></a></div>
+                <div class="project-web-links"><a href="page2/smart-stamp/site/index.html?v=20261011-1">打开网页模拟 <span>↗</span></a></div>
             </div>
         </article>`
 });
