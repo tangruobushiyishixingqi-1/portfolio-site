@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1600" preserveAspectRatio="none" fill="none">
+  <defs>
+    <linearGradient id="ink" x1="54" y1="1560" x2="936" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#719082" stop-opacity=".68"/>
+      <stop offset=".46" stop-color="#9b6f82" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#8493aa" stop-opacity=".64"/>
+    </linearGradient>
+    <linearGradient id="mist" x1="122" y1="1344" x2="886" y2="102" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d4e2dc" stop-opacity=".08"/>
+      <stop offset=".52" stop-color="#e2c2cf" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#c3cedd" stop-opacity=".06"/>
+    </linearGradient>
+    <filter id="soft" x="-12%" y="-8%" width="124%" height="116%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <style>
+      .edge-flow {
+        stroke-dasharray: 22 16 74 12;
+        animation: edge-flow 7s linear infinite;
+      }
+      .edge-flow--slow {
+        stroke-dasharray: 9 18 52 15;
+        animation: edge-flow-reverse 10s linear infinite;
+      }
+      .wind-line {
+        stroke-dasharray: 4 16 38 18;
+        animation: wind-flow 9s linear infinite;
+      }
+      .wind-line--two { animation-delay: -3.2s; }
+      .wind-line--three { animation-delay: -6.1s; }
+      .soft-barbs {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: barb-breathe 8s ease-in-out infinite;
+      }
+      @keyframes edge-flow {
+        to { stroke-dashoffset: -248; }
+      }
+      @keyframes edge-flow-reverse {
+        to { stroke-dashoffset: 188; }
+      }
+      @keyframes wind-flow {
+        to { stroke-dashoffset: -212; }
+      }
+      @keyframes barb-breathe {
+        0%, 100% { opacity: .62; }
+        50% { opacity: .86; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .edge-flow,
+        .edge-flow--slow,
+        .wind-line,
+        .soft-barbs { animation: none; }
+      }
+    </style>
+  </defs>
+
+  <!-- A faint body gives the fine ink lines enough presence without becoming a solid shape. -->
+  <path
+    d="M936 24C801 59 650 139 520 253 364 390 194 510 132 679 69 850 168 1005 158 1157c-7 99-51 166-113 213 151-34 338-99 477-211 146-118 204-260 181-402-24-148 27-285 117-420 67-101 106-207 116-313Z"
+    fill="url(#mist)"
+    filter="url(#soft)"
+  />
+
+  <!-- Fine hand-drawn barbs. -->
+  <g id="barbs-primary" class="soft-barbs" stroke="url(#ink)" stroke-linecap="round" opacity=".72">
+    <g stroke-width="1.8">
+      <path d="M292 1290C219 1335 148 1358 76 1372"/>
+      <path d="M335 1239C264 1289 191 1315 112 1331"/>
+      <path d="M365 1195C281 1253 202 1283 120 1305"/>
+      <path d="M393 1138C303 1204 216 1232 129 1244"/>
+      <path d="M409 1082C312 1151 218 1182 126 1197"/>
+      <path d="M420 1019C318 1091 211 1115 115 1118"/>
+      <path d="M421 957C316 1033 207 1061 105 1064"/>
+      <path d="M411 894C306 965 199 985 99 976"/>
+      <path d="M398 832C293 904 189 919 98 907"/>
+      <path d="M383 773C282 837 189 844 105 824"/>
+      <path d="M372 714C276 770 184 776 112 753"/>
+      <path d="M375 651C282 699 201 696 124 667"/>
+      <path d="M390 593C300 629 220 620 146 584"/>
+      <path d="M410 536C327 564 254 548 176 506"/>
+      <path d="M438 482C363 502 294 481 210 430"/>
+      <path d="M470 429C400 441 343 416 259 361"/>
+      <path d="M505 382C441 385 382 354 308 300"/>
+      <path d="M543 333C487 326 436 293 369 239"/>
+      <path d="M586 287C535 275 489 241 430 190"/>
+      <path d="M630 243C587 226 550 194 500 145"/>
+      <path d="M677 203C651 188 634 169 620 151"/>
+      <path d="M728 163C700 142 682 116 668 92"/>
+      <path d="M778 126C758 105 746 84 737 65"/>
+      <path d="M832 88C818 69 811 51 806 36"/>
+    </g>
+
+    <g stroke-width="1.6">
+      <path d="M294 1291C354 1270 410 1230 476 1166"/>
+      <path d="M335 1240C397 1219 457 1182 514 1127"/>
+      <path d="M368 1196C438 1174 500 1136 560 1082"/>
+      <path d="M394 1139C466 1119 527 1084 587 1032"/>
+      <path d="M411 1083C487 1063 555 1028 620 974"/>
+      <path d="M421 1020C501 1001 574 965 647 910"/>
+      <path d="M424 958C507 940 590 905 675 850"/>
+      <path d="M414 895C503 877 599 836 695 782"/>
+      <path d="M401 833C493 814 598 773 710 707"/>
+      <path d="M386 774C486 752 605 704 724 634"/>
+      <path d="M376 715C487 690 614 639 736 560"/>
+      <path d="M378 652C499 622 629 563 750 486"/>
+      <path d="M394 593C522 558 651 495 765 413"/>
+      <path d="M414 537C545 499 674 432 783 347"/>
+      <path d="M442 482C571 439 693 370 799 290"/>
+      <path d="M474 430C597 385 714 318 813 246"/>
+      <path d="M509 382C626 336 732 272 824 208"/>
+      <path d="M548 334C658 288 752 233 837 178"/>
+      <path d="M590 287C692 244 781 194 851 151"/>
+      <path d="M634 244C726 206 805 164 867 129"/>
+      <path d="M681 203C758 170 820 135 875 104"/>
+      <path d="M732 164C795 138 846 107 886 82"/>
+      <path d="M782 126C827 105 868 80 901 57"/>
+      <path d="M833 88C867 72 899 51 923 35"/>
+    </g>
+  </g>
+
+  <use href="#barbs-primary" transform="translate(0 -11)" opacity=".32"/>
+  <use href="#barbs-primary" transform="translate(0 13)" opacity=".24"/>
+
+  <!-- Animated edge filaments make the outline feel wind-driven. -->
+  <g stroke="url(#ink)" stroke-linecap="round" fill="none">
+    <path class="edge-flow" stroke-width="2.4" opacity=".86" d="M45 1370C151 1343 260 1298 349 1220 430 1149 448 1065 420 957 386 824 340 742 390 593 449 416 657 191 936 24"/>
+    <path class="edge-flow edge-flow--slow" stroke-width="1.5" opacity=".68" d="M76 1372C162 1370 256 1331 335 1240 409 1155 452 1052 424 958 389 840 357 743 394 593 440 410 655 179 923 35"/>
+    <path class="edge-flow" stroke-width="2.1" opacity=".74" d="M476 1166C579 1087 671 970 703 757 727 598 753 479 820 337 870 231 914 116 936 24"/>
+    <path class="edge-flow edge-flow--slow" stroke-width="1.4" opacity=".6" d="M560 1082C657 986 716 870 711 706 706 552 764 402 824 208 851 121 897 59 936 24"/>
+  </g>
+
+  <!-- The exposed S-shaped shaft. -->
+  <path
+    d="M54 1564c93-69 134-139 206-191 119-87 169-186 164-316-5-131-68-229-50-368 23-178 150-323 283-436C765 161 860 78 936 24"
+    stroke="url(#ink)"
+    stroke-width="6.5"
+    stroke-linecap="round"
+  />
+  <path
+    d="M58 1558c91-67 133-136 205-187 117-85 166-184 161-313-5-131-67-229-49-368 23-177 150-321 283-434C766 164 860 80 936 25"
+    stroke="#fff"
+    stroke-opacity=".5"
+    stroke-width="1.4"
+    stroke-linecap="round"
+  />
+
+  <!-- Loose wind traces echo the reference without changing the feather's footprint. -->
+  <g stroke="url(#ink)" stroke-linecap="round" fill="none" opacity=".48">
+    <path class="wind-line" stroke-width="1.6" d="M77 1264C8 1202 25 1124 109 1116c67-6 80 60 31 91-42 26-95 0-83-43"/>
+    <path class="wind-line wind-line--two" stroke-width="1.3" d="M166 1455C78 1494 26 1451 63 1398 34 1429 21 1475 46 1511"/>
+    <path class="wind-line wind-line--three" stroke-width="1.5" d="M691 806c126-67 229-32 216 48-11 67-102 83-139 27-29-44 10-83 55-66"/>
+    <path class="wind-line wind-line--two" stroke-width="1.3" d="M561 465c102-91 234-96 278-23 35 57-19 117-81 95"/>
+    <path class="wind-line wind-line--three" stroke-width="1.2" d="M285 984C174 1014 75 973 74 898c-1-54 67-79 106-45"/>
+  </g>
+</svg>
