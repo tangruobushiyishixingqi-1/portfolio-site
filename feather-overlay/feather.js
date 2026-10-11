@@ -10,7 +10,7 @@
         <div class="project-feather-overlay__drift">
             <img
                 class="project-feather-overlay__image"
-                src="feather-overlay/feather.svg?v=20261011-2"
+                src="feather-overlay/feather.svg?v=20261011-3"
                 alt=""
                 draggable="false"
             >

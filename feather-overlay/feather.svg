@@ -5,6 +5,12 @@
       <stop offset=".46" stop-color="#9b6f82" stop-opacity=".9"/>
       <stop offset="1" stop-color="#8493aa" stop-opacity=".64"/>
     </linearGradient>
+    <linearGradient id="left-fade" x1="1" y1=".5" x2="0" y2=".5">
+      <stop stop-color="#9b6f82" stop-opacity=".9"/>
+      <stop offset=".48" stop-color="#967789" stop-opacity=".58"/>
+      <stop offset=".78" stop-color="#84978f" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#84978f" stop-opacity="0"/>
+    </linearGradient>
     <linearGradient id="mist" x1="122" y1="1344" x2="886" y2="102" gradientUnits="userSpaceOnUse">
       <stop stop-color="#d4e2dc" stop-opacity=".08"/>
       <stop offset=".52" stop-color="#e2c2cf" stop-opacity=".22"/>
@@ -64,7 +70,7 @@
 
   <!-- Fine hand-drawn barbs. -->
   <g id="barbs-primary" class="soft-barbs" stroke="url(#ink)" stroke-linecap="round" opacity=".72">
-    <g stroke-width="1.8">
+    <g stroke="url(#left-fade)" stroke-width="1.8">
       <path d="M292 1290C219 1335 148 1358 76 1372"/>
       <path d="M335 1239C264 1289 191 1315 112 1331"/>
       <path d="M365 1195C281 1253 202 1283 120 1305"/>
@@ -124,8 +130,8 @@
 
   <!-- Animated edge filaments make the outline feel wind-driven. -->
   <g stroke="url(#ink)" stroke-linecap="round" fill="none">
-    <path class="edge-flow" stroke-width="2.4" opacity=".86" d="M45 1370C151 1343 260 1298 349 1220 430 1149 448 1065 420 957 386 824 340 742 390 593 449 416 657 191 936 24"/>
-    <path class="edge-flow edge-flow--slow" stroke-width="1.5" opacity=".68" d="M76 1372C162 1370 256 1331 335 1240 409 1155 452 1052 424 958 389 840 357 743 394 593 440 410 655 179 923 35"/>
+    <path class="edge-flow" stroke="url(#left-fade)" stroke-width="2.4" opacity=".86" d="M45 1370C151 1343 260 1298 349 1220 430 1149 448 1065 420 957 386 824 340 742 390 593 449 416 657 191 936 24"/>
+    <path class="edge-flow edge-flow--slow" stroke="url(#left-fade)" stroke-width="1.5" opacity=".68" d="M76 1372C162 1370 256 1331 335 1240 409 1155 452 1052 424 958 389 840 357 743 394 593 440 410 655 179 923 35"/>
     <path class="edge-flow" stroke-width="2.1" opacity=".74" d="M476 1166C579 1087 671 970 703 757 727 598 753 479 820 337 870 231 914 116 936 24"/>
     <path class="edge-flow edge-flow--slow" stroke-width="1.4" opacity=".6" d="M560 1082C657 986 716 870 711 706 706 552 764 402 824 208 851 121 897 59 936 24"/>
   </g>
