@@ -22,6 +22,7 @@
                     <p>我写小说，也写随笔。</p>
                     <p>小说里的角色替我去爱、去恨、去错过、去美满……他们情深不寿，他们恨海情天，他们小满胜万全。</p>
                     <p>随笔里，我反复咀嚼心事，探索自己内心深处的声音，并不时回顾，去反思与总结。</p>
+                    <a class="interest-entry" href="./page3/writing/index.html">查看文章 <span aria-hidden="true">→</span></a>
                 </article>
                 <article class="interest-card">
                     <p class="interest-number">03 / WANDER</p>
