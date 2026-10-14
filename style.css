@@ -797,6 +797,71 @@ h1 {
 
 .project-card h3 { font-size: var(--project-title-size); }
 
+#project-smart-stamp .stamp-story-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#project-smart-stamp .stamp-story-toggle {
+    flex: 0 0 auto;
+    padding: 8px 11px;
+    border: 1px solid rgba(177, 127, 141, .34);
+    color: #986c79;
+    background: rgba(255, 250, 249, .5);
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: .05em;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+
+#project-smart-stamp .stamp-story-toggle:hover,
+#project-smart-stamp .stamp-story-toggle:focus-visible,
+#project-smart-stamp .stamp-story-toggle[aria-expanded="true"] {
+    border-color: #bd8c9b;
+    color: #8a5f6b;
+    background: rgba(255, 247, 248, .86);
+}
+
+#project-smart-stamp .stamp-story-toggle:focus-visible {
+    outline: 2px solid rgba(142, 175, 161, .5);
+    outline-offset: 3px;
+}
+
+#project-smart-stamp .stamp-product-story {
+    margin: 22px 0 20px;
+    padding: 20px 22px;
+    border-top: 1px solid rgba(215, 170, 190, .28);
+    border-bottom: 1px solid rgba(215, 170, 190, .28);
+    background: linear-gradient(135deg, rgba(255, 247, 248, .58), rgba(239, 247, 244, .38));
+}
+
+#project-smart-stamp .stamp-product-story[hidden] { display: none; }
+
+#project-smart-stamp .stamp-product-story p {
+    margin: 0 0 12px;
+    color: #806d74;
+    font-size: var(--project-body-size);
+    letter-spacing: .035em;
+    line-height: 1.9;
+}
+
+#project-smart-stamp .stamp-product-story p:last-child { margin-bottom: 0; }
+
+#project-smart-stamp .stamp-story-interview {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(142, 175, 161, .42);
+}
+
+#project-smart-stamp .stamp-story-interview b {
+    color: #ae8190;
+    font-weight: 500;
+}
+
 .project-tagline {
     margin: 10px 0 18px !important;
     color: #b17f8d;
@@ -943,6 +1008,9 @@ h1 {
     .project-art { width: 100%; height: 74px; }
     .project-web-links a, .project-entry-label { padding: 8px 5px; font-size: 9px; letter-spacing: .035em; }
     .card-index { flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    #project-smart-stamp .stamp-story-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
+    #project-smart-stamp .stamp-story-toggle { width: 100%; padding: 8px 7px; }
+    #project-smart-stamp .stamp-product-story { margin: 17px 0; padding: 16px 12px; }
     .flow-art { flex-wrap: wrap; justify-content: center; }
     .flow-art i { display: none; }
     .agent-audit-preview { padding: 8px 6px; border-radius: 7px; }

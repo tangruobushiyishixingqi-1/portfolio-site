@@ -18,6 +18,18 @@
     const returnStateKey = 'portfolioProjectReturn';
 
     root.addEventListener('click', event => {
+        const storyToggle = event.target.closest('#project-smart-stamp [data-story-toggle]');
+        if (storyToggle) {
+            const story = document.getElementById(storyToggle.getAttribute('aria-controls'));
+            if (!story) return;
+
+            const willExpand = storyToggle.getAttribute('aria-expanded') !== 'true';
+            storyToggle.setAttribute('aria-expanded', String(willExpand));
+            storyToggle.textContent = `一则极其抽象的产品叙事（${willExpand ? '收起' : '展开'}）`;
+            story.hidden = !willExpand;
+            return;
+        }
+
         const projectLink = event.target.closest('.project-card a[href^="page2/"]');
         if (!projectLink) return;
 
